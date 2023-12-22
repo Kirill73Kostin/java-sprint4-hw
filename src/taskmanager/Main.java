@@ -13,7 +13,6 @@ public class Main {
 
     public static void main(String[] args) {
         TaskManager taskManager = new InMemoryTaskManager();
-        HistoryManager historyManager = new InMemoryHistoryManager();
 
         Task task2 = new Task("t2", "tt2");
         task2.setStatus(Status.DONE);
@@ -50,9 +49,10 @@ public class Main {
         System.out.println(taskManager.getByIdTask(4));
         System.out.println(taskManager.getByIdTask(3));
         System.out.println(taskManager.getByIdTask(3));
+        System.out.println(taskManager.getByIdTask(3));
         System.out.println(taskManager.getHistory().size());
         System.out.println(taskManager.getHistory().get(0));
-        System.out.println(taskManager.getHistory().get((historyManager.getHistory().size() - 1)));
+        System.out.println(taskManager.getHistory().get((taskManager.getHistory().size() - 1)));
 
     }
 }
