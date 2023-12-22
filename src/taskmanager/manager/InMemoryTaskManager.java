@@ -7,24 +7,19 @@ import taskmanager.model.Enums.Status;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private static HashMap<Integer, Task> taskMap = new HashMap<>();
-    private static HashMap<Integer, Epic> epicMap = new HashMap<>();
-    private static HashMap<Integer, Subtask> subtaskMap = new HashMap<>();
-    private  final HistoryManager historyManager = new InMemoryHistoryManager();
-
+    private final HashMap<Integer, Task> taskMap = new HashMap<>();
+    private final HashMap<Integer, Epic> epicMap = new HashMap<>();
+    private final HashMap<Integer, Subtask> subtaskMap = new HashMap<>();
 
     private int nextId = 1;
 
-
-
+    InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
 
     @Override
     public int createTask(Task task) {
-        historyManager.addTaskToHistory(task);
         generateId(task);
         taskMap.put(task.getId(), task);
         return task.getId();
@@ -33,7 +28,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public int createEpic(Epic epic) {
         generateId(epic);
-        historyManager.addTaskToHistory(epic);
         if (epic.getSubtaskIdsSize() == 0) {
             epic.setStatus(Status.NEW);
         }
@@ -44,7 +38,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public int createSubtask(Subtask subtask) {
         generateId(subtask);
-        historyManager.addTaskToHistory(subtask);
         Epic epic = epicMap.get(subtask.getEpicId());
         epic.addSubtaskId(subtask.getId());
         subtaskMap.put(subtask.getId(), subtask);
@@ -55,21 +48,17 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTask(Task task) {
         taskMap.put(task.getId(), task);
-        historyManager.addTaskToHistory(task);
     }
 
     @Override
     public void updateEpic(Epic epic) {
         epicMap.put(epic.getId(), epic);
-        historyManager.addTaskToHistory(epic);
     }
-
 
     @Override
     public void updateSubtask(Subtask subtask) {
         subtaskMap.put(subtask.getId(), subtask);
         updateEpicStatus(epicMap.get(subtask.getEpicId()));
-        historyManager.addTaskToHistory(subtask);
     }
 
     @Override
@@ -108,16 +97,19 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getByIdTask(Integer id) {
+        addTaskToHistory(taskMap.get(id));
         return (taskMap.get(id));
     }
 
     @Override
     public Subtask getByIdSubtask(Integer id) {
+        addTaskToHistory(subtaskMap.get(id));
         return (subtaskMap.get(id));
     }
 
     @Override
     public Epic getByIdEpic(Integer id) {
+        addTaskToHistory(epicMap.get(id));
         return (epicMap.get(id));
     }
 
@@ -157,19 +149,16 @@ public class InMemoryTaskManager implements TaskManager {
         return (subTList);
     }
 
-
-    @Override
-    public int generateId(Task task) { //Было private. Оставить private, но выдернуть из интерфейса????
+    protected int generateId(Task task) {
         task.setId(nextId);
         nextId++;
         return nextId;
     }
 
-    @Override
-    public void updateEpicStatus(Epic epic) {
+    private void updateEpicStatus(Epic epic) {
         int n = 0;
         int done = 0;
-        if ((epic.getSubtaskIds() == null) || (subtaskMap.size() == 0)) { //Было private. Оставить private, но выдернуть из интерфейса????
+        if ((epic.getSubtaskIds() == null) || (subtaskMap.size() == 0)) {
             epic.setStatus(Status.NEW);
         } else {
 
@@ -195,6 +184,10 @@ public class InMemoryTaskManager implements TaskManager {
                 epic.setStatus(Status.IN_PROGRESS);
             }
         }
+    }
+
+    void addTaskToHistory(Task task) {
+        inMemoryHistoryManager.addTaskToHistory(task);
     }
 
 }

@@ -10,16 +10,9 @@ import java.util.List;
 
 public interface TaskManager {
 
-    static HashMap<Integer, Task> taskMap = new HashMap<>(); //Было private
-    static HashMap<Integer, Epic> epicMap = new HashMap<>(); //Было private
-    static HashMap<Integer, Subtask> subtaskMap = new HashMap<>(); //Было private
-
-
     int createTask(Task task);
 
-
     int createEpic(Epic epic);
-
 
     int createSubtask(Subtask subtask);
 
@@ -27,11 +20,9 @@ public interface TaskManager {
 
     void updateEpic(Epic epic);
 
-
     void updateSubtask(Subtask subtask);
 
     ArrayList<Task> getTasks();
-
 
     ArrayList<Subtask> getSubtasks();
 
@@ -55,11 +46,6 @@ public interface TaskManager {
 
     void delByIdEpic(Integer id);
 
-
     ArrayList<Subtask> listSubtaskOfEpic(Integer id);
-
-    int generateId(Task task); //Было private
-
-    void updateEpicStatus(Epic epic); //Было private
 
 }
