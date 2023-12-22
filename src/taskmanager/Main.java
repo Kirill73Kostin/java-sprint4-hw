@@ -39,7 +39,7 @@ public class Main {
         System.out.println(taskManager.listSubtaskOfEpic(2));
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getSubtasks());
-        System.out.println(taskManager.getByIdTask(4));
+        System.out.println(taskManager.getByIdTask(3));
         System.out.println(taskManager.getByIdTask(4));
         System.out.println(taskManager.getByIdTask(4));
         System.out.println(taskManager.getByIdTask(4));
@@ -49,9 +49,10 @@ public class Main {
         System.out.println(taskManager.getByIdTask(4));
         System.out.println(taskManager.getByIdTask(4));
         System.out.println(taskManager.getByIdTask(3));
-        System.out.println(historyManager.getHistory().size());
-        System.out.println(historyManager.getHistory().get(0));
-        System.out.println(historyManager.getHistory().get((historyManager.getHistory().size() - 1)));
+        System.out.println(taskManager.getByIdTask(3));
+        System.out.println(taskManager.getHistory().size());
+        System.out.println(taskManager.getHistory().get(0));
+        System.out.println(taskManager.getHistory().get((historyManager.getHistory().size() - 1)));
 
     }
 }

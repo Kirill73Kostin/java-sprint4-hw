@@ -47,5 +47,6 @@ public interface TaskManager {
     void delByIdEpic(Integer id);
 
     ArrayList<Subtask> listSubtaskOfEpic(Integer id);
+    List<Task> getHistory();
 
 }

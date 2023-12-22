@@ -7,6 +7,7 @@ import taskmanager.model.Enums.Status;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -188,6 +189,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     void addTaskToHistory(Task task) {
         inMemoryHistoryManager.addTaskToHistory(task);
+    }
+    @Override
+    public List<Task> getHistory() {
+        return inMemoryHistoryManager.getHistory();
     }
 
 }
